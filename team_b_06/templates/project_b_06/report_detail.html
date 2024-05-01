@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load basename %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/report_detail.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="below">
+    <div class="body-content">
+
+        <div class="row">
+            <div class="col-6">
+                <div class="left">
+                    <div class="instruct">
+                        <h2>
+                            {{ report.title }}
+                        </h2>
+                    </div>
+                    <br>
+
+                    <h4>Class:</h4>
+                    <p>{{ report.mnemonic }} {{ report.number }}</p>
+
+                    <h4>Report Text:</h4>
+                    <p>{{ report.text }}</p>
+
+                    <h4>Tag:</h4>
+                    <p>{{report.get_tag_display}}</p>
+
+                    <h4>Auditor's Resolved Note</h4>
+                    {% if report.note %}
+                    <p>{{ report.note }}</p>
+                    {% else %}
+                    <p>No resolved note</p>
+                    {% endif %}
+
+                    <h4>Attached Files:</h4>
+                    {% if url %}
+                    <a href="{{ report.file.url }}">{{ report.file.name|basename }}</a>
+                    {% else %}
+                    <p>No file associated with this report.</p>
+                    {% endif %}
+
+
+                    {% if is_authenticated and not is_admin and request.user.profile.role != 'Instructor' %}
+                    <div class="container">
+                        <div class="row justify-content-start">
+                            <div class="col-auto">
+                                <form action="{% url 'delete_report' report.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn">Delete Report</button>
+                                </form>
+                            </div>
+                            <div class="col-auto">
+                                <a href="{% url 'profile' %}" class="btn btn-outline-secondary me-2">View
+                                    Your
+                                    Reports</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if is_authenticated and request.user.profile.role == 'Instructor' %}
+                    <div class="container">
+                        <div class="row justify-content-start">
+                            {% if not report.instructor_approved %}
+                            <div class="col-auto">
+                                <form action="{% url 'instructor_approve' report.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn">Approve Report</button>
+                                </form>
+                            </div>
+                            {% endif %}
+                            <div class="col-auto">
+                                <a href="{% url 'instructor_reports' %}" class="btn btn-outline-secondary me-2">View Reports About You</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if is_admin %}
+                    <div class="container">
+                        <div class="row justify-content-start">
+                            <div class="col-auto">
+                                {% if report.whisteblower_approved and report.instructor_approved %}
+                                <a href="{% url 'report_approve' report_id=report.id %}"
+                                    class="btn btn-outline-secondary me-2">Approve</a>
+                                {% elif report.whisteblower_approved and not report.instructor_approved and not report.awaiting_instructor_approval  %}
+                                <a href="{% url 'send_instructor' report.id %}"
+                                    class="btn btn-outline-secondary me-2">Send to Staff for Approval</a>
+                                {% endif %}
+                            </div>
+                            <div class="col-auto">
+                                <a href="{%url 'view_reports' %}" class="btn btn-outline-secondary me-2">View All
+                                    Reports</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="right">
+                    <img src="{% static 'project_b_06/images/cartoon_prof.png' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

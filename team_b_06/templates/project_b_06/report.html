@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/report.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="body-content">
+    <div class="instruct">
+        <h3>
+            Please input all the information below
+        </h3>
+    </div>
+    <form action="{% url 'report' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-8">
+            <div class="blocks">
+                <div class="input-group">
+                    <span class="input-group-text required">Course Mnemonic and Number</span>
+                    <input type="text" name="mnemonic" aria-label="Course Mnemonic" class="form-control"
+                        placeholder="ex: CS" value="{{ request.POST.mnemonic }}">
+                    <input type="text" name="number" aria-label="Course Number" class="form-control"
+                        placeholder="ex: 3240" value="{{ request.POST.number }}">
+                </div>
+                {% if form.errors.mnemonic %}
+                <div class="text-danger">{{ form.errors.mnemonic }}</div>
+                {% endif %}
+                {% if form.errors.number %}
+                <div class="text-danger">{{ form.errors.number }}</div>
+                {% endif %}
+                <div class="input-group">
+                    <span class="input-group-text required">TA/Professor's First and Last Name</span>
+                    <input type="text" name="reported_fname" aria-label="First name" class="form-control"
+                        placeholder="ex: Sebastian" value="{{ request.POST.reported_fname }}">
+                    <input type="text" name="reported_lname" aria-label="Last name" class="form-control"
+                        placeholder="ex: Elbaum" value="{{ request.POST.reported_lname }}">
+                </div>
+                {% if form.errors.reported_fname %}
+                <div class="text-danger">{{ form.errors.reported_fname }}</div>
+                {% endif %}
+                {% if form.errors.reported_lname %}
+                <div class="text-danger">{{ form.errors.reported_lname }}</div>
+                {% endif %}
+                <label class="required" for="compId">Their Computing ID:</label>
+                <input type="text" id="compId" name="reported_comp_id" placeholder="ex: se4ja" value="{{ request.POST.reported_comp_id }}"><br>
+                {% if form.errors.reported_comp_id %}
+                <div class="text-danger">{{ form.errors.reported_comp_id }}</div>
+                {% endif %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="whisteblower_approved" id="publicSubmit"
+                        value=True>
+                    <label class="form-check-label required" for="publicSubmit">
+                        Public Submission
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="whisteblower_approved" id="privateSubmit"
+                        value=False checked>
+                    <label class="form-check-label required" for="privateSubmit">
+                        Private Submission
+                    </label>
+                </div>
+                <div class="row nMarg">
+                    <div class="col-11 nMarg">
+                        <input class="input_box form-control" type="text" id="title" name="title" placeholder="Title" value="{{ request.POST.title }}">
+                    </div>
+                    <div class="col-1 nMarg">
+                        <span class="required"></span>
+                    </div>
+                </div>
+                {% if form.errors.text %}
+                <div class="text-danger">{{ form.errors.title }}</div>
+                {% endif %}
+
+                <div class="row nMarg">
+                    <div class="col-11 nMarg">
+                        <textarea class="input_box form-control" id="feedback" name="text" rows="4" cols="50"
+                            placeholder="Input report here" oninput="updateCount(this)">{{ request.POST.text }}</textarea>
+                    </div>
+                    <div class="col-1 nMarg">
+                        <span class="required"></span>
+                    </div>
+                </div>
+                <div id="count"></div> <!-- Character count display -->
+                
+                <script>
+                function updateCount(textarea) {
+                    var maxLength = 5000;
+                    if (textarea.value.length > maxLength) {
+                        textarea.value = textarea.value.slice(0, maxLength);
+                    }
+                    var count = document.getElementById('count');
+                    count.textContent = "You've entered " + textarea.value.length + " out of " + maxLength + " available characters";
+                }
+                </script>
+
+                {% if form.errors.text %}
+                <div class="text-danger">{{ form.errors.text }}</div>
+                {% endif %}
+                <br>
+                <div class="input-group">
+                    <label class="input-group-text required" for="tag">Tag</label>
+                    <select class="form-select" id="tag" name="tag">
+                        {% for tag_choice in form.tag.field.choices %}
+                        {% if tag_choice.0 != 'N' %}
+                        <option value="{{ tag_choice.0 }}">{{ tag_choice.1 }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                    <input type="file" name="file" class="form-control" id="inputGroupFile01">
+                </div>
+
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

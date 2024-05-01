@@ -1,0 +1,24 @@
+body,
+html {
+    height: 100%;
+}
+
+.fullscreen-container {
+    height: 100%;
+    width: 100%;
+}
+
+.main_content {
+    flex-grow: 1;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.body-content {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    padding: 20px !important;
+    margin-left: 185px !important;
+    margin-right: 185px !important;
+}

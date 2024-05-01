@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+<style>
+    form {
+        max-width: 450px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    input {
+        width: calc(100% - 10px);
+        /* Adjusted width to accommodate label */
+        padding: 12px;
+        font-size: 16px;
+    }
+
+    label {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        transition: top 0.3s, left 0.3s, font-size 0.3s, color 0.3s;
+    }
+
+    input:focus+label,
+    input:not(:placeholder-shown)+label {
+        top: 6px;
+        left: 6px;
+        font-size: 12px;
+    }
+
+    button[type="submit"] {
+        margin-top: 10px;
+        width: 450px;
+        height: 40px;
+        margin-bottom: 6px;
+    }
+
+    .role-label {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        /* Adjusted left position */
+        font-size: 16px;
+        width: 120px;
+        /* Adjusted width to accommodate longer labels */
+        text-align: right;
+        /* Align label text to the right */
+        transition: top 0.3s, left 0.3s, font-size 0.3s, color 0.3s;
+    }
+
+    .hide-label {
+        display: none;
+        /* Hide the label */
+    }
+
+    .error-message {
+        color: #D64045;
+        padding: 5px 10px;
+        margin: 5px 0 15px;
+        font-size: 14px;
+        text-align: left;
+        display: block;
+    }
+
+    .custom {
+        width: 100%;
+        margin-bottom: 20px;
+        /* Increased margin for better separation */
+        margin-top: 20px
+    }
+</style>
+
+<div class="container">
+    <div class="text-center mb-4">
+        <h1>Sign Up</h1>
+        <a href="{% provider_login_url 'google' %}">
+            <button type="button" class="btn btn-link btn-floating mx-1 primary">
+                <i class="fa-brands fa-google"></i> Sign Up With Google
+            </button>
+        </a>
+    </div>
+    <br>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 text-center">
+            <h3>Or</h3>
+        </div>
+        <div class="text-left">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.username }}
+                    <label for="id_username" class="username-label required">Username:</label>
+                    <p>Required. 150 characters or less. Letters, digits and @/./+/-/_</p>
+                    {% if form.username.errors %}
+                    <div class="error-message">
+                        {{ form.username.errors|first }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password1 }}
+                    <label for="id_password1" class="password1-label required">Password:</label>
+                    <ul>
+                        <li>Your password must contain at least 8 characters.</li>
+                        <li>Your password can’t be entirely numeric.</li>
+                    </ul>
+                    {% if form.password1.errors %}
+                    <div class="error-message">
+                        {{ form.password1.errors|first }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.password2 }}
+                    <label for="id_password2" class="password2-label required">Confirm Password:</label>
+                    {% if form.password2.errors %}
+                    <div class="error-message">
+                        {{ form.password2.errors|first }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <p>Role: {{ form.role }}</p>
+                </div>
+                <div class="form-group">
+                    {{ form.password }}
+                    <label for="id_comp-id" class="comp_id-label required">Computing ID:</label>
+                </div>
+                <div class="text-center">
+                    {% if field.errors %}
+                    <div class="error" style="color: #D64045; padding-left: 5px;">
+                        {{ field.errors|first }}
+                    </div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/resolve.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="body-content">
+    <div class="center-content">
+        <div class="shadow-round">
+            <div class="title">
+                <h2>Resolve Report</h2>
+            </div>
+            <form class="center-content" action="{% url 'resolve_report' report_id=report.id %}" method="POST">
+                <div class="col">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}:</label><br>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <button type="submit">Resolve</button>
+
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}

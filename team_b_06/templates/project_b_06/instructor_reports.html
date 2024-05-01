@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/submission_history.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="below">
+    <div class="body-content">
+
+        <div class="instruct">
+            <h3>
+                Reports About You
+            </h3>
+        </div>
+
+
+        <div class="disclaimer">
+            <p>
+                This page is a list of all complaints students have made against you, the instructor.
+                For each report, you can view a summary of the report and decide whether you want to
+                approve the report or not. Approving the report will allow the report to show up in the 
+                public reports tab for everyone to see.
+            </p>
+        </div>
+        
+        <div class="shadow-round">
+            <div class="pad">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Title</th>
+                            <th style="text-align: center">Date</th>
+                            <th style="text-align: center">Instructor Approval</th>
+                            <th style="text-align: center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                        <tr>
+                            <td style="text-align: center">{{ report.title }}</td>
+                            <td>{{ report.pub_date }}</td>
+                            {% if report.awaiting_instructor_approval and not report.instructor_approved %}
+                            <td>Waiting for Your Approval</td>
+                            {% elif report.instructor_approved %}
+                            <td>Approved by You</td>
+                            {% else %}
+                            <td>No status available</td>
+                            {% endif %}
+                            <td class="centered-column">
+                                <span
+                                    class="status {% if report.status == 'New' %}new{% elif report.status == 'In Progress' %}in-progress{% elif report.status == 'Resolved' %}resolved{% endif %}">
+                                    {{ report.status }}
+                                </span>
+                            </td>
+                            <td><a href="{% url 'report_detail' report.id %}"
+                                    class="btn btn-outline-secondary me-2">View</a></td>
+
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No reports found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        
+    </div>
+
+</div>
+
+
+
+{% endblock %}

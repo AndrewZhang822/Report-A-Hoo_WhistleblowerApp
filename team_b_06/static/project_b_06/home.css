@@ -1,0 +1,27 @@
+.col {
+    display: flex;
+    flex-direction: column;
+    height: 85%;
+}
+
+.disclaimer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    color: #03256C;
+    
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    min-height: 88vh;
+
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.main_content {
+    margin-top: 10%;
+    color: #1F271B;
+}

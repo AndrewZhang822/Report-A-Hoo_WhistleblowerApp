@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+<style>
+    .custom {
+        width: 100%;
+        margin-bottom: 20px; /* Increased margin for better separation */
+        margin-top: 20px
+    }
+    p {
+        font-size: 16px;
+    }
+    .form-group {
+        position: relative;
+        margin-top: 20px; /* Increased margin for better separation */
+    }
+    input {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+    }
+    label {
+        position: absolute;
+        top: 20px; /* Adjusted top position for better alignment */
+        left: 10px;
+        transition: top 0.3s, font-size 0.3s, color 0.3s;
+    }
+    input:focus + label,
+    input:not(:placeholder-shown) + label {
+        top: 6px; /* Adjusted top position for better alignment */
+        font-size: 12px;
+    }
+    .error-message {
+        color: #D64045; /* custom color for error text */
+        padding: 5px 10px; /* padding around the text */
+        margin: 5px 0 15px; /* spacing around the error message block */
+        font-size: 14px; /* smaller font size for error message */
+
+    }
+    h3 {
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h3::before,
+    h3::after {
+      background-color: #000;
+      content: "";
+      display: inline-block;
+      height: 1px;
+      position: relative;
+      vertical-align: middle;
+      width: 50%;
+    }
+
+    h3::before {
+      right: 0.5em;
+      margin-left: -50%;
+    }
+
+    h3::after {
+      left: 0.5em;
+      margin-right: -50%;
+    }
+</style>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4    text-center">
+        <div class="text-center mb-6 ">
+            <h1>Sign In</h1>
+            <a href="{% provider_login_url 'google' %}">
+                <button type="button" class="btn btn-link btn-floating mx-1 custom">
+                    <i class="fa-brands fa-google"></i> Log In With Google
+                </button>
+            </a>
+            <br>
+            <br>
+        </div>
+            <h3>Or</h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ form.username }}
+                    <label class="required" for="id_username">Username:</label>
+                    {% for error in form.username.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form.password }}
+                    <label class="required" for="id_password">Password:</label>
+                    {% for error in form.password.errors %}
+                        <div class="error-message">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="error-message">
+                        {% for error in form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <button type="submit" class="btn btn-primary custom">Sign In</button>
+                <p>Don't have an account? <a href="{% url 'signup' %}">Create one here</a></p>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

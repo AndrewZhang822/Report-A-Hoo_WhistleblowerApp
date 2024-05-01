@@ -1,0 +1,35 @@
+
+.shadow-round {
+    border: #fff;
+    border-radius: 10px;
+    background-color: #F0F7F4;
+    box-shadow: 5px 5px 10px rgba(141, 140, 140, 0.5);
+    padding: 40px;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.title {
+    margin-bottom: 8%;
+    text-align: center;
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 5%;
+}
+
+form button[type="submit"] {
+    background-color: #4B88A2;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}

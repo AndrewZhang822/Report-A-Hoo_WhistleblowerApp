@@ -1,0 +1,28 @@
+body, html {
+    height: 100%;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+  }
+
+.fullscreen-container {
+    height: 100%;
+    width: 100%;
+}
+
+.main_content {
+    flex-grow: 1;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.disclaimer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 60%;
+}

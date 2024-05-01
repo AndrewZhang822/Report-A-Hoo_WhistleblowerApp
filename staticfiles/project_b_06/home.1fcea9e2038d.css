@@ -1,0 +1,13 @@
+.col {
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+}
+
+.disclaimer {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 60%;
+}

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/profile.css' %}">
+<link rel="stylesheet" href="{% static 'project_b_06/submission_history.css' %}">
+<style>
+    .body-content {
+        display: flex;
+        flex-wrap: wrap;
+        color: #1f271b;
+    }
+
+    .column {
+        box-sizing: border-box;
+        padding: 5px;
+    }
+
+    .welcome-column {
+        width: 20%;
+    }
+
+    .submission-history-column {
+        width: 80%;
+    }
+
+    .welcome-column p,
+    .welcome-column h3,
+    .columnprofile p {
+        text-align: left;
+        color: #1f271b;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+{% if not user_profile.site_admin %}
+<div class="body-content">
+    <h1>Welcome!</h1>
+    <br>
+    <div class="row">
+        <div class="column welcome-column">
+            <div class="columnprofile">
+                <h2>My Profile:</h2>
+                <p><strong>Username: </strong>{{ user_profile.user.username }}</p>
+                <p><strong>User Role: </strong>{{ user_profile.user.profile.role }}</p>
+                <p><strong>Computing Id: </strong>{{ user_profile.user.profile.comp_id }}</p>
+                <h2>Edit Profile</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+        {% if request.user.profile.role != 'Instructor' %}
+        <div class="column submission-history-column">
+            <div class="instruct">
+                <h3>My Submission History:</h3>
+            </div>
+            <div class="shadow-round">
+                <div class="pad">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Reported Person</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Visibility</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in reports %}
+                            <tr>
+                                <td>{{ report.title }}</td>
+                                <td>{{ report.reported_fname }} {{ report.reported_lname }}</td>
+                                <td>{{ report.pub_date }}</td>
+                                <td class="centered-column">
+                                    <span
+                                        class="status {% if report.status == 'New' %}new{% elif report.status == 'In Progress' %}in-progress{% elif report.status == 'Resolved' %}resolved{% endif %}">
+                                        {{ report.status }}
+                                    </span>
+                                </td>
+                                {% if report.whisteblower_approved %}
+                                <td>Public</td>
+                                {% else %}
+                                <td>Private</td>
+                                {% endif %}
+                                <td class="centered-column"><a href="{% url 'report_detail' report.id %}"
+                                        class="btn btn-outline-secondary me-2">View</a></td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No reports found</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% else %}
+
+
+<body>
+    <div class="body-content">
+        <h1>Welcome!</h1>
+        <br>
+        <div class="row">
+            <div class="column welcome-column">
+                <div class="columnprofile">
+                    <h2>My Profile:</h2>
+                    <p><strong>Username: </strong>{{ user_profile.user.username }}</p>
+                </div>
+            </div>
+        </div>
+</body>
+{% endif %}
+{% endblock %}

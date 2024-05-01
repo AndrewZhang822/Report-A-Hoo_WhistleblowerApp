@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/submission_history.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="below">
+    <div class="body-content">
+
+        <div class="instruct">
+            <h3>
+                Your Reports
+            </h3>
+        </div>
+
+        <div class="shadow-round">
+            <div class="pad">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Reported Person</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Auditor's Resolved Note</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                        <tr>
+                            <td>{{ report.title }}</td>
+                            <td>{{ report.reported_fname }} {{ report.reported_lname }}</td>
+                            <td>{{ report.pub_date }}</td>
+                            <td class="centered-column">
+                                <span
+                                    class="status {% if report.status == 'New' %}new{% elif report.status == 'In Progress' %}in-progress{% elif report.status == 'Resolved' %}resolved{% endif %}">
+                                    {{ report.status }}
+                                </span>
+                            </td>
+                            <td>{{ report.note }}</td>
+                            <td class="centered-column"><a href="{% url 'report_detail' report.id %}"
+                                    class="btn btn-outline-secondary me-2">View</a></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No reports found</td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

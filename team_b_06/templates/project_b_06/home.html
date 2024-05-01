@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <div class="block">
+
+        <div class="main_content">
+            <h1>Report-A-Hoo</h1>
+            <h3>Have a problem with your instructors? You've come to the right place...</h3>
+            <br>
+
+            {% if request.user.profile.role != 'Instructor' and not request.user.profile.site_admin %}
+            <a href="{% url 'report' %}" class="btn btn-outline-secondary me-2">Report Now</a>
+            {% endif %}
+        </div>
+
+
+        <div class="disclaimer">
+            <p>
+                Disclaimer: This application is solely intended for educational purposes only.
+                It is not to be used for actual whistleblowing or reporting of sensitive or private information.
+                The features provided within this app are simulated and do not constitute a secure or confidential
+                channel
+                for
+                reporting misconduct.
+                Users are reminded that actual whistleblowing should be carried out through appropriate channels and
+                in
+                accordance with legal and organizational policies.
+                This application does not guarantee anonymity or protection for individuals wishing to disclose
+                sensitive
+                information.
+                The creators and developers of this app do not assume any responsibility for the misuse of the
+                application
+                or
+                any consequences resulting from its use for purposes other than intended.
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

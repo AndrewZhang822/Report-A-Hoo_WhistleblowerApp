@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/submission_history.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="below">
+    <div class="body-content">
+
+        <div class="instruct">
+            <h3>
+                Reports
+            </h3>
+        </div>
+
+        <div class="shadow-round">
+            <div class="pad">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Report ID</th>
+                            <th style="text-align: center">Title</th>
+                            <th style="text-align: center">Reported Person</th>
+                            <th style="text-align: center">Reporter Computing ID</th>
+                            <th style="text-align: center">Date</th>
+                            <th style="text-align: center">Visibility</th>
+                            <th style="text-align: center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for report in reports %}
+                        <tr>
+                            <td style="text-align: center">{{ report.id }}</td>
+                            <td style="text-align: center">{{ report.title }}</td>
+                            <td>{{ report.reported_fname }} {{ report.reported_lname }}</td>
+                            <td style="text-align: center">{{ report.reporter_comp_id }}</td>
+                            <td>{{ report.pub_date|date:"m/d/Y"}}</td>
+                            {% if report.whisteblower_approved %}
+                            <td>Public</td>
+                            {% else %}
+                            <td>Private</td>
+                            {% endif %}
+                            <td class="centered-column">
+                                <span
+                                    class="status {% if report.status == 'New' %}new{% elif report.status == 'In Progress' %}in-progress{% elif report.status == 'Resolved' %}resolved{% endif %}">
+                                    {{ report.status }}
+                                </span>
+                            </td>
+                            <td><a href="{% url 'report_detail' report.id %}"
+                                    class="btn btn-outline-secondary me-2">View</a></td>
+                            <td><a href="{% url 'resolve_report' report.id %}"
+                                    class="btn btn-outline-secondary me-2">Resolve</a></td>
+
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No reports found</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

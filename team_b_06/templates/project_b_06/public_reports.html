@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/public.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="body-content">
+
+    <h2>Public Reports</h2>
+    {% for report in reports %}
+    <div class="shadow-round">
+        <div class="col">
+            <div class="report-row">
+                <div class="report-item">
+                    <div class="label">Title:</div>
+                    <div class="detail">{{ report.title }}</div>
+                </div>
+                <div class="report-item">
+                    <div class="label">Date:</div>
+                    <div class="detail">{{ report.pub_date }}</div>
+                </div>
+                <div class="report-item">
+                    <div class="label">Tag:</div>
+                    <div class="detail">{{ report.get_tag_display }}</div>
+                </div>
+            </div>
+            <div class="report-row">
+                <div class="report-item">
+                    <div class="label">Reported About:</div>
+                    <div class="detail">{{ report.reported_fname }} {{ report.reported_lname }}</div>
+                </div>
+                <div class="report-item">
+                    <div class="label">Course:</div>
+                    <div class="detail">{{ report.mnemonic }} {{ report.number }}</div>
+                </div>
+                <div class="report-item">
+                    <div class="label">Status:</div>
+                    <div class="detail">{{ report.status }}</div>
+                </div>
+            </div>
+            <hr>
+            <div class="report-item">
+                <div class="label">Report Text:</div>
+                <div class="detail">{{ report.text }}</div>
+            </div>
+        </div>
+    </div>
+
+    {% empty %}
+    <p>No public reports available.</p>
+    {% endfor %}
+</div>
+{% endblock %}

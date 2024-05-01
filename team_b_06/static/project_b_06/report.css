@@ -1,0 +1,74 @@
+.col {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  padding: 20px !important;
+}
+
+.blocks {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 20px !important;
+  border-radius: 10px;
+  border: 2px solid rgba(3, 37, 108, 0.5);
+  
+  background-color: white;
+}
+
+.row {
+  margin: 20px !important;
+  padding: 10px !important;
+}
+
+.instruct {
+  margin-bottom: 50px !important;
+  padding: 10px !important;
+  text-align: center;
+  background-color: #4B88A2;
+  border-radius: 10px;
+  color: #F0F7F4;
+}
+
+input::placeholder {
+  color: #999 !important;
+  opacity: 0.5 !important;
+}
+
+textarea::placeholder {
+  color: #999 !important;
+  opacity: 0.5 !important;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  background-color: #4B88A2; 
+  color: #F0F7F4;
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+button:hover {
+  background-color: #3D7082; /* darker blue hover */
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-box {
+  width: calc(100% - 20px);
+}
+
+.nMarg {
+  margin: 0 !important;
+  margin-top: .5% !important;
+  margin-bottom: .25% !important;
+  padding: 0 !important;
+}

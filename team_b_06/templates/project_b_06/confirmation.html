@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'project_b_06/confirmation.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="body-content">
+    <div class="col">
+        <div class="row">
+            <div class="thanks">Thank you for reporting!</div>
+
+            <h4>Your report has been submitted</h4>
+        </div>
+        <div class="main_content">
+            <div class="col">
+                <br>
+                <div class="rounded_box">
+                    {% if latest_report %}
+                    <div>
+                        <p>Course Mnemonic: {{ latest_report.mnemonic }}</p>
+                        <p>Course Number: {{ latest_report.number }}</p>
+                        <p>Reported TA/Prof's Computing ID: {{ latest_report.reported_comp_id }}</p>
+                        <p>Visibility:
+                            {% if latest_report.whisteblower_approved %}
+                            Public
+                            {% else %}
+                            Private
+                            {% endif %}
+                        </p>
+                        <p>Report: {{ latest_report.text }}</p>
+                        <p>Submission Date/Time: {{ latest_report.pub_date }}</p>
+                        {% if latest_report.whisteblower_approved %}
+                            <p style="font-weight: bold;">NOTE: Public reports require approval from the reported instructor and an internal auditor, <br> thus it may take extra time to process the report before being posted in the "Public Reports" tab.</p>
+                        {% endif %}
+                    </div>
+                    {% else %}
+                    <p>No reports are available.</p>
+                    {% endif %}
+                </div>
+
+                <a href="/report" class="button">Submit Another Report</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
